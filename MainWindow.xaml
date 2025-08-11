@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GradeManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="960" Width="1280">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width=".2*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid>
+            <DataGrid
+                ItemsSource="{Binding Items}"
+                SelectedItem="{Binding SelectedItem}"
+                CanUserAddRows="False" CanUserDeleteRows="False"
+                AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="학년" Width=".1*"/>
+                    <DataGridTextColumn Header="반" Width=".1*"/>
+                    <DataGridTextColumn Header="번호" Width=".1*"/>
+                    <DataGridTextColumn Header="이름" Width=".1*"/>
+                    <DataGridTextColumn Header="과목1" Width=".1*"/>
+                    <DataGridTextColumn Header="과목2" Width=".1*"/>
+                    <DataGridTextColumn Header="과목3" Width=".1*"/>
+                    <DataGridTextColumn Header="총점" Width=".1*"/>
+                    <DataGridTextColumn Header="평균" Width=".1*"/>
+                    <DataGridTextColumn Header="등급" Width=".1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".1*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <StackPanel>
+                    <Button Margin="5,0,5,15" Height="50"/>
+                    <Button Margin="5,0,5,15" Height="50"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
