@@ -4,48 +4,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GradeManager"
-        mc:Ignorable="d"
+        xmlns:userControls ="clr-namespace:GradeManager.View.UserControls"
+        mc:Ignorable="d" Loaded="Window_Loaded"
         Title="MainWindow" Height="960" Width="1280">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width=".8*"/>
             <ColumnDefinition Width=".2*"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".1*"/>
+                <RowDefinition Height=".9*"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <ItemsControl ItemsSource="{Binding ComboBoxBars}" HorizontalAlignment="Left">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <userControls:ComboBoxBar/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+
             <DataGrid
-                ItemsSource="{Binding Items}"
-                SelectedItem="{Binding SelectedItem}"
+                Grid.Row="1"
+                x:Name="StudentDataGrid"
+                ItemsSource="{Binding StudentVM.Students}"
                 CanUserAddRows="False" CanUserDeleteRows="False"
                 AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="학년" Width=".1*"/>
-                    <DataGridTextColumn Header="반" Width=".1*"/>
-                    <DataGridTextColumn Header="번호" Width=".1*"/>
-                    <DataGridTextColumn Header="이름" Width=".1*"/>
-                    <DataGridTextColumn Header="과목1" Width=".1*"/>
-                    <DataGridTextColumn Header="과목2" Width=".1*"/>
-                    <DataGridTextColumn Header="과목3" Width=".1*"/>
-                    <DataGridTextColumn Header="총점" Width=".1*"/>
-                    <DataGridTextColumn Header="평균" Width=".1*"/>
-                    <DataGridTextColumn Header="등급" Width=".1*"/>
-                </DataGrid.Columns>
             </DataGrid>
         </Grid>
 
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height=".1*"/>
-                <RowDefinition/>
+                <RowDefinition Height=".4*"/>
+                <RowDefinition Height=".6*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1">
-                <StackPanel>
-                    <Button Margin="5,0,5,15" Height="50"/>
-                    <Button Margin="5,0,5,15" Height="50"/>
-                </StackPanel>
-            </Grid>
+            <ItemsControl ItemsSource="{Binding ControlBars}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <userControls:ObjectControlBar/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                <Button Width="75" Height="37" Margin="5,5,5,5" FontSize="20"
+                        Content="찾기"/>
+                <TextBox Width="161" Height="37" Margin="5,5,5,5"/>
+            </StackPanel>
+            
         </Grid>
     </Grid>
 </Window>

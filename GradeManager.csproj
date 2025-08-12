@@ -9,10 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="MVVM\" />
-    <Folder Include="View\" />
-    <Folder Include="ViewModel\" />
+    <Folder Include="Styles\" />
   </ItemGroup>
 
 </Project>

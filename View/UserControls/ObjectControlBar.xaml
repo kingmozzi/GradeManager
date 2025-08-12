@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="GradeManager.View.UserControls.ObjectControlBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GradeManager.View.UserControls"
+             mc:Ignorable="d"
+             Width="256" Height="96">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Margin="5,5,5,5" Width="75" Text="{Binding DisplayText}" 
+                   TextAlignment="Center" FontSize="20"
+                   VerticalAlignment ="Center" HorizontalAlignment="Center"/>
+        <Button Grid.Column="1" Margin="5,5,5,5" Width="75" Height="38"
+                Content="추가" FontSize="20" Command="{Binding AddCommand}"/>
+        <Button Grid.Column="2" Margin="5,5,5,5" Width="75" Height="38"
+                Content="삭제" FontSize="20" Command="{Binding DeleteCommand}"/>
+
+    </Grid>
+</UserControl>
