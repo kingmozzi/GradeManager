@@ -3,6 +3,7 @@ using GradeManager.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +14,15 @@ namespace GradeManager.ViewModel
     {
         public GradeViewModel GradeVM { get; set; } = new GradeViewModel();
         public ClassRoomViewModel ClassVM { get; set; } = new ClassRoomViewModel();
-        public StudentViewModel StudentVM { get; set; } = new StudentViewModel();
+        public ObservableCollection<Student> Students { get; set; }
         public ObservableCollection<ObjectControlBarViewModel> ControlBars { get; }
         public ObservableCollection<ComboBoxBarViewModel> ComboBoxBars { get; }
-        public ObservableCollection<Subject> Subjects { get; set; } = new ObservableCollection<Subject>();
-        
+        public ObservableCollection<Subject> Subjects { get; set; }// = new ObservableCollection<Subject>();
 
         public MainViewModel()
         {
+            Students = new ObservableCollection<Student>();
+
             GradeVM.PropertyChanged += (s, e) =>
             {
                 var selectedGrade = GradeVM.SelectedGrade;
@@ -46,42 +48,50 @@ namespace GradeManager.ViewModel
                 new ComboBoxBarViewModel()
             };
 
-            ComboBoxBars[0].DisplayText = "학년";
-            ComboBoxBars[1].DisplayText = "반";
 
-            var kor = new Subject { Name = "국어" };
-            var math = new Subject { Name = "수학"};
-            var eng = new Subject { Name = "영어" };
-            Subjects.Add(kor);
-            Subjects.Add(math);
-            Subjects.Add(eng);
-            StudentVM.Students.Add(new Student
+            Subjects = new ObservableCollection<Subject>
             {
-                Name = "홍길",
-                StudentId = 1,
-                Scores = new ObservableCollection<SubjectScore>
-                {
-                    new SubjectScore {Subject = kor, Score = 90},
-                    new SubjectScore {Subject = math, Score = 80},
-                    new SubjectScore {Subject = eng, Score = 90}
-                }
-            });
-            StudentVM.Students.Add(new Student
+                new Subject { Name = "국어" },
+                new Subject { Name = "수학" },
+                new Subject { Name = "영어" }
+            };
+
+            ControlBars[2].AddCommand = new RelayCommand(execute => AddStudent());
+
+
+        }
+
+        private void AddGrade()
+        {
+
+        }
+
+        private void DeleteGrade()
+        {
+
+        }
+
+        private void AddStudent()
+        {
+            var tempScores = new ObservableCollection<ScoreEntry>();
+            foreach (var subject in Subjects)
             {
-                Name = "홍아",
-                StudentId = 2,
-                Scores = new ObservableCollection<SubjectScore>
-                {
-                    new SubjectScore {Subject = kor, Score = 90},
-                    new SubjectScore {Subject = math, Score = 80},
-                    new SubjectScore {Subject = eng, Score = 90}
-                }
+                var tempScore = new ScoreEntry();
+                tempScore.Subject = subject.Name;
+                tempScore.Score = 0;
+                tempScores.Add(tempScore);
+            }
+            Students.Add(new Student
+            {
+                Name = "NEW STUDENT",
+                StudentId = 9999,
+                Scores = tempScores
             });
         }
 
-        public void RemoveSubject(string subjectName, ObservableCollection<Student> students)
+        private void DeleteStudent()
         {
-         
+
         }
     }
 }

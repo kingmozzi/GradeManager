@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GradeManager.Model
 {
-    class Student
+    class Student : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public int StudentId { get; set; }
+        public ObservableCollection<ScoreEntry> Scores { get; set; } = new();
+        public double AverageScore => Scores.Count == 0 ? 0 : Scores.Average(s => s.Score);
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<SubjectScore> Scores { get; set; } = new ObservableCollection<SubjectScore>();
-        public double AverageScore => Scores.Any() ? Scores.Average(s => s.Score) : 0;
-
-        public int? GetScore(string subjectName)
+        public Student()
         {
-            return Scores.FirstOrDefault(s => s.Subject.Name == subjectName)?.Score;
+
         }
 
-
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

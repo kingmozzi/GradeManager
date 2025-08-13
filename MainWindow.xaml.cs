@@ -1,4 +1,5 @@
-﻿using GradeManager.ViewModel;
+﻿using GradeManager.Model;
+using GradeManager.ViewModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,44 +22,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = new MainViewModel();
-
-    }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-
-        var vm = DataContext as MainViewModel;
-
-        StudentDataGrid.Columns.Add(new DataGridTextColumn
-        {
-            Header = "Name",
-            Binding = new Binding("Name")
-        });
-
-        StudentDataGrid.Columns.Add(new DataGridTextColumn
-        {
-            Header = "ID",
-            Binding = new Binding("StudentId")
-        });
-
-        foreach (var subject in vm.Subjects)
-        {
-
-            var binding = new Binding($"[{subject.Name}]");
-
-            StudentDataGrid.Columns.Add(new DataGridTextColumn
-            {
-                Header = subject.Name,
-                Binding = binding
-            });
-
-        }
-
-        StudentDataGrid.Columns.Add(new DataGridTextColumn
-        {
-            Header = "Average",
-            Binding = new Binding("AverageScore")
-        });
+        
 
     }
 }

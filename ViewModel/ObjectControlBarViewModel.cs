@@ -22,8 +22,8 @@ namespace GradeManager.ViewModel
             }
         }
 
-        public ICommand AddCommand { get; }
-        public ICommand DeleteCommand { get; }
+        public ICommand AddCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
 
         public ObjectControlBarViewModel()
         {

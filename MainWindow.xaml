@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GradeManager"
         xmlns:userControls ="clr-namespace:GradeManager.View.UserControls"
-        mc:Ignorable="d" Loaded="Window_Loaded"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
         Title="MainWindow" Height="960" Width="1280">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,7 +27,7 @@
                             <StackPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <userControls:ComboBoxBar/>
@@ -38,10 +39,38 @@
             <DataGrid
                 Grid.Row="1"
                 x:Name="StudentDataGrid"
-                ItemsSource="{Binding StudentVM.Students}"
-                CanUserAddRows="False" CanUserDeleteRows="False"
-                AutoGenerateColumns="False">
+                ItemsSource="{Binding Students}"
+                CanUserAddRows="False" 
+                CanUserDeleteRows="False"
+                AutoGenerateColumns="True"
+                AlternatingRowBackground="DarkGray">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="이름" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="번호" Binding="{Binding StudentId}"/>
+
+                    <DataGridTemplateColumn Header="Scores">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+
+                                <ItemsControl ItemsSource="{Binding PivotedStudents}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Subject}" Margin="2"/>
+                                                <TextBlock Text="{Binding Score}" Margin="2"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="AverageScore" Binding="{Binding AverageScore}"/>
+                </DataGrid.Columns>
             </DataGrid>
+
         </Grid>
 
 

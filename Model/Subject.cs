@@ -10,11 +10,5 @@ namespace GradeManager.Model
     {
         public string Name { get; set; }
     }
-
-    public class SubjectScore
-    {
-        public Subject Subject { get; set; }
-        public int Score { get; set; }
-    }
 }
 
