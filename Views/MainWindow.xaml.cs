@@ -28,9 +28,7 @@ public partial class MainWindow : Window
             if (DataContext is MainViewModel vm)
             {
                 await vm.LoadOnStartupAsync();
-                //vm.EnsureDefaultGradeClass();
             }
-             // 새 메서드 (아래)
 
         };
     }

@@ -1,54 +1,123 @@
 ﻿<Window x:Class="GradeManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GradeManager"
-        mc:Ignorable="d"
         xmlns:vm="clr-namespace:GradeManager.ViewModels"
-        Title="성적 관리" Height="720" Width="1180">
+        Title="성적 관리"
+        Width="1280" Height="720"
+        MinWidth="1280" MinHeight="720"
+        WindowStartupLocation="CenterScreen">
+
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
 
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="8" VerticalAlignment="Center">
+    <!-- Grid: 행(상단/본문), 열(본문/우측패널) -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- 상단: 학년/반 -->
+            <RowDefinition Height="*"/>
+            <!-- 본문 -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!-- DataGrid -->
+            <ColumnDefinition Width="260"/>
+            <!-- 우측 패널(슬림) -->
+        </Grid.ColumnDefinitions>
+
+        <!-- 상단: 학년/반만 -->
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" Margin="8" VerticalAlignment="Center">
             <TextBlock Text="학년" VerticalAlignment="Center" Margin="0,0,4,0"/>
-            <ComboBox Width="80" ItemsSource="{Binding Grades}" SelectedItem="{Binding SelectedGrade}" Margin="0,0,8,0"/>
-            <Button Content="학년 추가" Command="{Binding AddGradeCmd}" Margin="0,0,4,0"/>
-            <Button Content="학년 삭제" Command="{Binding RemoveGradeCmd}" Margin="0,0,8,0"/>
-
+            <ComboBox Width="80"
+                      ItemsSource="{Binding Grades}"
+                      SelectedItem="{Binding SelectedGrade}"
+                      Margin="0,0,12,0"/>
             <TextBlock Text="반" VerticalAlignment="Center" Margin="0,0,4,0"/>
-            <ComboBox Width="80" ItemsSource="{Binding Classes}" SelectedItem="{Binding SelectedClass}" Margin="0,0,8,0"/>
-            <Button Content="반 추가" Command="{Binding AddClassCmd}" Margin="0,0,4,0"/>
-            <Button Content="반 삭제" Command="{Binding RemoveClassCmd}" Margin="0,0,8,0"/>
-
-            <TextBox Width="180" Margin="16,0,0,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Separator Width="16"/>
-            <Button Content="학생 추가" Command="{Binding AddStudentCmd}" Margin="4,0,0,0"/>
-            <Button Content="학생 삭제" Command="{Binding RemoveStudentCmd}" Margin="4,0,0,0"/>
-
-            <Separator Width="16"/>
-            <ComboBox Width="140" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}" Margin="4,0,0,0"/>
-            <Button Content="과목 추가" Command="{Binding AddSubjectCmd}" Margin="4,0,0,0"/>
-            <Button Content="과목 삭제" Command="{Binding RemoveSubjectCmd}" Margin="4,0,0,0"/>
-            <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
-                <TextBox Width="120" Text="{Binding PendingSubjectName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,4,0"/>
-                <Button Content="이름 변경" Command="{Binding RenameSubjectCmd}"/>
-            </StackPanel>
-
-            <Separator Width="16"/>
-            <Button Content="저장" Command="{Binding SaveCmd}" Margin="4,0,0,0"/>
+            <ComboBox Width="80"
+                      ItemsSource="{Binding Classes}"
+                      SelectedItem="{Binding SelectedClass}"
+                      Margin="0,0,12,0"/>
         </StackPanel>
 
-        <!-- 점수표 -->
-        <DataGrid ItemsSource="{Binding PivotView}" x:Name="Grid"
+        <!-- 본문: DataGrid (좌측 영역 전체) -->
+        <DataGrid Grid.Row="1" Grid.Column="0" x:Name="Grid"
+                  ItemsSource="{Binding PivotView}"
                   SelectionMode="Single" SelectionUnit="FullRow"
                   AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="False"
                   AutoGeneratingColumn="OnAutoGeneratingColumn"
                   BeginningEdit="OnBeginningEdit"
                   CellEditEnding="OnCellEditEnding"
-                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}"/>
-    </DockPanel>
+                  SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                  Margin="8,0,8,8"/>
+
+        <!-- 우측: 세로 버튼 패널 (슬림) -->
+        <Border Grid.Row="1" Grid.Column="1" Padding="8"
+                BorderBrush="#DDD" BorderThickness="1,0,0,0">
+            <Border.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="MinWidth" Value="56"/>
+                    <Setter Property="Padding" Value="6,0"/>
+                    <Setter Property="Margin" Value="0,3,0,3"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Margin" Value="0,3,0,3"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Margin" Value="0,3,0,3"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,6,0,2"/>
+                </Style>
+            </Border.Resources>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="학년/반" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="학년" Width="60" VerticalAlignment="Center" TextAlignment="Center"/>
+                    <Button Content="추가" Command="{Binding AddGradeCmd}" Width="56" Margin="6,0,0,0"/>
+                    <Button Content="삭제" Command="{Binding RemoveGradeCmd}" Width="56" Margin="6,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="반" Width="60" VerticalAlignment="Center" TextAlignment="Center"/>
+                    <Button Content="추가" Command="{Binding AddClassCmd}" Width="56" Margin="6,0,0,0"/>
+                    <Button Content="삭제" Command="{Binding RemoveClassCmd}" Width="56" Margin="6,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock Text="학생" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="추가" Command="{Binding AddStudentCmd}" Width="56"/>
+                    <Button Content="삭제" Command="{Binding RemoveStudentCmd}" Width="56" Margin="6,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock Text="과목" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding Subjects}"
+                          SelectedItem="{Binding SelectedSubject}"
+                          DisplayMemberPath="Name"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="추가" Command="{Binding AddSubjectCmd}" Width="56"/>
+                    <Button Content="삭제" Command="{Binding RemoveSubjectCmd}" Width="56" Margin="6,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="이름" IsHitTestVisible="False" Width="56" TextAlignment="Center"/>
+                    <TextBox Width="100" Text="{Binding PendingSubjectName, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,0,0"/>
+                    <Button Content="변경" Command="{Binding RenameSubjectCmd}" Width="56" Margin="6,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock Text="검색" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="찾기" IsHitTestVisible="False" Width="56" TextAlignment="Center"/>
+                    <TextBox Width="100" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,0,0"/>
+                </StackPanel>
+
+                <Separator Margin="0,8,0,8"/>
+                <Button Content="저장" Command="{Binding SaveCmd}" Width="120"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 </Window>
