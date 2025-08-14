@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="GradeManager.Views.StatsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             DataContext="{Binding StatsVM}">
+    <StackPanel Margin="16">
+        <TextBlock FontSize="18" FontWeight="Bold" Text="전체 통계"/>
+        <UniformGrid Columns="3" Margin="0,8,0,0">
+            <StackPanel>
+                <TextBlock Text="평균"/>
+                <TextBlock Text="{Binding Mean, StringFormat=F2}"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="최고"/>
+                <TextBlock Text="{Binding Max, StringFormat=F0}"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="최저"/>
+                <TextBlock Text="{Binding Min, StringFormat=F0}"/>
+            </StackPanel>
+        </UniformGrid>
+    </StackPanel>
+</UserControl>

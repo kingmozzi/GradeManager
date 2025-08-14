@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="GradeManager.Views.ScoresView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             DataContext="{Binding ScoresVM}">
+    <DockPanel Margin="8">
+        <TextBlock DockPanel.Dock="Top" Text="과목 추가/삭제 후 표는 자동 갱신됩니다."/>
+
+        <!-- Pivot DataView 바인딩: 과목이 바뀌면 MainViewModel.PivotView가 다시 계산됨 -->
+        <DataGrid ItemsSource="{Binding DataContext.PivotView, RelativeSource={RelativeSource AncestorType=Window}}"
+                  AutoGenerateColumns="True" CanUserAddRows="False" 
+                  IsReadOnly="False" CellEditEnding="OnCellEditEnding">
+        </DataGrid>
+    </DockPanel>
+</UserControl>
